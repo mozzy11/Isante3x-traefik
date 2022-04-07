@@ -1,0 +1,67 @@
+version: "3.9"
+
+services:
+###
+  # reverse proxy
+  ###
+  traefik:
+    image: traefik:v2.6.1
+    container_name: traefik
+    ports:
+      - '80:80'
+      - '443:443'
+      - '8080:8080'
+    volumes:
+      - ./certs/:/etc/certs/       
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./configs/conf.yaml:/conf/conf.yaml  
+      - ./configs/traefik.yaml:/etc/traefik/traefik.yaml
+    
+  ###
+  # iSantePlus Server
+  ###
+  isanteplus:
+    container_name: isanteplus
+    hostname: isanteplus
+    image: ghcr.io/isanteplus/docker-isanteplus-server:v2.2.2
+    restart: unless-stopped
+    env_file:
+      - ./isanteplus.env
+    volumes:
+      - /openmrs/data
+      - ./custom_modules:/custom_modules
+      - ./dist:/openmrs/data/frontend
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+    # ports:
+    # - "8080:8080"
+    # - "1044:1044"
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.isanteplus.rule=Host(`iplus3.openelis-global.org`) && PathPrefix(`/openmrs`)'
+      - 'traefik.http.routers.isanteplus.tls=true'
+      - 'traefik.http.routers.isanteplus.entrypoints=https'
+      # - 'traefik.http.routers.isanteplus.middlewares=isanteplus-stripprefix'
+      # - 'traefik.http.middlewares.isanteplus-stripprefix.stripprefix.prefixes=/openmrs'
+      
+  isanteplus-mysql:
+    image: ghcr.io/isanteplus/docker-isanteplus-db:v2.2.1
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci --sql_mode=""
+    restart: unless-stopped
+    container_name: isanteplus-mysql
+    hostname: isanteplus-mysql
+    healthcheck:
+      test: "exit 0"
+    environment:
+      - MYSQL_DATABASE=openmrs
+      - MYSQL_ROOT_PASSWORD=debezium
+      - MYSQL_USER=mysqluser
+      - MYSQL_PASSWORD=mysqlpw
+      - MYSQL_ROOT_HOST=% # Allow docker containers to connect to mysql
+    volumes:
+      - ./mysql.cnf:/etc/mysql/conf.d/custom.cnf # mysql config preconfigured to allow binlog/debezium
+      - /var/lib/mysql
+    ports:
+    - "3306:3306"

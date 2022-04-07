@@ -1,0 +1,36 @@
+
+{
+  "publicUrl": ".",
+  "frontendModules": {
+    "@openmrs/esm-patient-chart-app": "latest",
+    "@openmrs/esm-patient-registration-app": "latest",
+    "@openmrs/esm-home-app": "latest",
+    "@openmrs/esm-form-entry-app": "latest",
+    "@openmrs/esm-patient-biometrics-app": "latest",
+    "@openmrs/esm-patient-banner-app": "latest",
+    "@openmrs/esm-patient-appointments-app": "latest",
+    "@openmrs/esm-patient-forms-app": "latest",
+    "@openmrs/esm-patient-vitals-app": "latest",
+    "@openmrs/esm-patient-immunizations-app": "latest",
+    "@openmrs/esm-patient-notes-app": "latest",
+    "@openmrs/esm-patient-medications-app": "latest",
+    "@openmrs/esm-patient-conditions-app": "latest",
+    "@openmrs/esm-patient-attachments-app": "latest",
+    "@openmrs/esm-patient-programs-app": "latest",
+    "@openmrs/esm-patient-allergies-app": "latest",
+    "@openmrs/esm-patient-test-results-app": "latest",
+    "@openmrs/esm-patient-clinical-view-app": "latest",
+    "@openmrs/esm-patient-search-app": "latest",
+    "@openmrs/esm-patient-list-app": "latest",
+    "@openmrs/esm-active-visits-app": "latest",
+    "@openmrs/esm-devtools-app": "latest",
+    "@openmrs/esm-implementer-tools-app": "latest",
+    "@openmrs/esm-patient-queue-app": "latest",
+    "@openmrs/esm-dispensing-app": "latest",
+    "@openmrs/esm-outpatient-app": "latest",
+    "@openmrs/esm-login-app": "latest",
+    "@openmrs/esm-primary-navigation-app": "latest",
+    "@openmrs/esm-generic-patient-widgets-app": "latest",
+    "@openmrs/esm-offline-tools-app": "latest"
+  }
+}
